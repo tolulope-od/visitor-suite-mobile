@@ -6,6 +6,7 @@ import {
   SET_NEW_VISITOR,
   CHECK_IF_EXISTING_VISITOR,
   CHECK_OUT_VISITOR,
+  CHECK_VISITOR_SUCCESS,
   GET_ERRORS
 } from "./types";
 
@@ -32,13 +33,12 @@ export const checkVisitor = phone_number => dispatch => {
 
 export const addNewVisitor = visitorData => dispatch => {
   dispatch(clearErrors());
+  dispatch(checkVisitorSuccess());
   axios
     .post(`http://localhost:5000/api/v1/visitor`, visitorData)
-    .then(res =>
-      dispatch({
-        type: SET_NEW_VISITOR,
-        payload: res.data
-      })
+    .then(res => { 
+      dispatch({ type: SET_NEW_VISITOR, payload: res.data });
+      }
     )
     .catch(err =>
       dispatch({
@@ -48,6 +48,12 @@ export const addNewVisitor = visitorData => dispatch => {
     );
 };
 
+// Check Visitor Successfully Registered
+export const checkVisitorSuccess = () => {
+  return {
+    type: CHECK_VISITOR_SUCCESS
+  }
+}
 
 // Clear errors
 export const clearErrors = () => {

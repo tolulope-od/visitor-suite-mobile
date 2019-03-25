@@ -1,4 +1,4 @@
-import { GET_VISITORS, VISITOR_LOADING, SET_NEW_VISITOR, CHECK_IF_EXISTING_VISITOR, CHECK_OUT_VISITOR } from '../actions/types';
+import { GET_VISITORS, VISITOR_LOADING, SET_NEW_VISITOR, CHECK_IF_EXISTING_VISITOR, CHECK_VISITOR_SUCCESS, CHECK_OUT_VISITOR } from '../actions/types';
 
 const initialState = {
   loading: false,
@@ -31,6 +31,11 @@ export default (state = initialState, action) => {
         ...state,
         visitors: [action.payload],
         success: true
+      }
+    case CHECK_VISITOR_SUCCESS:
+      return {
+        ...state,
+        success: false
       }
     case CHECK_OUT_VISITOR:
       return {

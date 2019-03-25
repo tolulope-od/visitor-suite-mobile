@@ -32,18 +32,16 @@ class VisitorPurposeForm extends Component {
     if (newProps.errors) {
       this.setState({ errors: newProps.errors })
     }
-  }
 
-  checkSuccess = () => {
-     if (this.props.visitor.success !== false) {
+    if (newProps.visitor.success === true) {
       this.props.navigation.navigate('VisitorSuccessScreen', {
         stateData: {
-            name: this.state.name
-          }
-        })
-      } else {
-        console.log('No Success')
-      }
+          name: this.state.name
+        }
+      })
+    } else {
+      console.log('null')
+    }
   }
 
   onSubmit = e => {
@@ -58,8 +56,7 @@ class VisitorPurposeForm extends Component {
       staff: this.state.staff,
       custom: this.state.custom
     };
-    this.props.addNewVisitor(visitorData)
- 
+    this.props.addNewVisitor(visitorData);
   }
 
   render() {
