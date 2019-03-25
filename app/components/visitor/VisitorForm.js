@@ -11,30 +11,46 @@ class VisitorForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      phone_number: ""
-    }
+      phone_number: "",
+      errors: {},
+      visitor: {}
+    };
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onSubmit = () => {
-      const { phone_number } = this.state;
-      const existingVisitor = this.props.checkVisitor(phone_number);
-
-      if (existingVisitor) {
-        console.log(existingVisitor)
-        this.props.navigation.navigate('VisitorPersonalsScreen');
-      } else {
-        console.log(existingVisitor)
-      }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
     }
 
-  render() {
-    
-    const { navigate } = this.props.navigation
+    if (nextProps.visitor.visitor) {
+      const visitor = nextProps.visitor.visitor;
+      if (visitor.data) {
+        if (visitor.data.ifNewVisitor.msg === 'A new visitor') {
+          this.props.navigation.navigate("VisitorPersonalsScreen", {
+            stateData: this.state.phone_number
+          });
+        } else {
+          // navigate to next screen and pass state data from redux
+          console.log(visitor.data.ifNewVisitor.default.address)
+        }
+      }
+    } else {
+      console.log('not received');
+    }
+  }
 
+  onSubmit = () => {
+    this.props.checkVisitor(this.state.phone_number);
+  };
+
+  render() {
+    const { navigate } = this.props.navigation;
     return (
       <View>
-        <Text style={styles.headText}>Welcome, please enter your phone number</Text>
+        <Text style={styles.headText}>
+          Welcome, please enter your phone number
+        </Text>
 
         <View style={styles.SectionStyle}>
           <Icon style={styles.IconStyle} name="phone" size={20} color="black" />
@@ -52,18 +68,22 @@ class VisitorForm extends Component {
             autoCorrect={false}
           />
         </View>
-        <TouchableOpacity style={styles.btn} onPress={
-          () => navigate('VisitorPersonalsScreen', {
-          stateData: this.state.phone_number
-        })}
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={
+            this.onSubmit
+            // () => navigate('VisitorPersonalsScreen', {
+            // stateData: this.state.phone_number
+          }
+          // )}
         >
           <Text
             style={{
-              color: 'rgb(255,255,255)',
-              fontFamily: 'montserrat-regular'
+              color: "rgb(255,255,255)",
+              fontFamily: "montserrat-regular"
             }}
           >
-            Next {'  '}
+            Next {"  "}
             <Icon name="arrow-right" size={20} />
           </Text>
         </TouchableOpacity>

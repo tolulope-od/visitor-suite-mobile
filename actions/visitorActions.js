@@ -36,10 +36,9 @@ export const addNewVisitor = visitorData => dispatch => {
   dispatch(checkVisitorSuccess());
   axios
     .post(`http://localhost:5000/api/v1/visitor`, visitorData)
-    .then(res => { 
+    .then(res => {
       dispatch({ type: SET_NEW_VISITOR, payload: res.data });
-      }
-    )
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -52,8 +51,8 @@ export const addNewVisitor = visitorData => dispatch => {
 export const checkVisitorSuccess = () => {
   return {
     type: CHECK_VISITOR_SUCCESS
-  }
-}
+  };
+};
 
 // Clear errors
 export const clearErrors = () => {
