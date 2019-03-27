@@ -25,7 +25,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         visitors: action.payload,
-        loading: false
+        loading: false,
+        success: false
       };
     case CHECK_IF_EXISTING_VISITOR:
       return {
@@ -37,12 +38,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         visitors: [action.payload],
-        success: true
+        success: false
       };
     case CHECK_VISITOR_SUCCESS:
       return {
         ...state,
-        success: false
+        success: true
       };
     case CHECK_OUT_VISITOR:
       return {

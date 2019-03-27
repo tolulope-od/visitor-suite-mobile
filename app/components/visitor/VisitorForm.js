@@ -12,8 +12,7 @@ class VisitorForm extends Component {
     super(props);
     this.state = {
       phone_number: "",
-      errors: {},
-      visitor: {}
+      errors: {}
     };
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -28,11 +27,21 @@ class VisitorForm extends Component {
       if (visitor.data) {
         if (visitor.data.ifNewVisitor.msg === 'A new visitor') {
           this.props.navigation.navigate("VisitorPersonalsScreen", {
-            stateData: this.state.phone_number
+            stateData: {
+              phone_number: this.state.phone_number
+            }
           });
         } else {
           // navigate to next screen and pass state data from redux
-          console.log(visitor.data.ifNewVisitor.default.address)
+          // console.log(visitor.data.ifNewVisitor.default.address)
+          this.props.navigation.navigate("VisitorReturningScreen", {
+            stateData: {
+              phone_number: this.state.phone_number,
+              name: visitor.data.ifNewVisitor.default.name,
+              address: visitor.data.ifNewVisitor.default.address,
+              email: visitor.data.ifNewVisitor.default.email
+            }
+          });
         }
       }
     } else {

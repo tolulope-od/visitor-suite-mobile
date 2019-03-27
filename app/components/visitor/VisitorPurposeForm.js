@@ -60,8 +60,6 @@ class VisitorPurposeForm extends Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation;
-
     return (
       <View>
         <Text style={styles.headText}>Almost done... </Text>
@@ -115,23 +113,6 @@ class VisitorPurposeForm extends Component {
             }}
           >
             Next {'  '}
-            <Icon name="arrow-right" size={20} />
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btn} onPress={ () => console.log(this.props.visitor)
-          // () => navigate('VisitorSuccessScreen', {
-          // stateData: {
-            // name: this.state.name
-          }
-        //})}
-        >
-          <Text
-            style={{
-              color: 'rgb(255,255,255)',
-              fontFamily: 'montserrat-regular'
-            }}
-          >
-            Check Props {'  '}
             <Icon name="arrow-right" size={20} />
           </Text>
         </TouchableOpacity>

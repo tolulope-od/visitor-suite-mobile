@@ -18,7 +18,7 @@ import LoginScreen from '../screens/Login';
 import PasswordResetScreen from '../screens/PasswordReset';
 import BurgerMenu from '../components/burgerMenu';
 import HomeScreen from '../screens/Home';
-import { VisitorScreen, VisitorPersonalsScreen, VisitorPurposeScreen, VisitorSuccessScreen } from '../screens/Visitor';
+import { VisitorScreen, VisitorPersonalsScreen, VisitorPurposeScreen, VisitorSuccessScreen, VisitorReturningScreen } from '../screens/Visitor';
 
 const IOS_MODAL_ROUTES = ['OptionsScreen'];
 
@@ -122,7 +122,7 @@ Register.navigationOptions = ({ navigation }) => {
   };
 };
 
-const VisitorStack = createStackNavigator({ VisitorScreen, VisitorPersonalsScreen, VisitorPurposeScreen, VisitorSuccessScreen }, { initialRouteName: 'VisitorScreen', transitionConfig: dynamicModalTransition });
+const VisitorStack = createStackNavigator({ VisitorScreen, VisitorPersonalsScreen, VisitorReturningScreen, VisitorPurposeScreen, VisitorSuccessScreen }, { initialRouteName: 'VisitorScreen', transitionConfig: dynamicModalTransition });
 
 VisitorStack.navigationOptions = ({ navigation }) => {
   // Lock tab bar when away from home screen-if tab bars are used
