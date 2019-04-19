@@ -35,7 +35,7 @@ class VisitorReturningForm extends Component {
                 name
               })
             }
-            placeholder={this.state.name}
+            placeholder={stateData.name}
             underlineColorAndroid="transparent"
             returnKeyType="next"
             autoCorrect={false}

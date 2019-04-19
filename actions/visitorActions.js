@@ -7,7 +7,8 @@ import {
   CHECK_IF_EXISTING_VISITOR,
   CHECK_OUT_VISITOR,
   CHECK_VISITOR_SUCCESS,
-  GET_ERRORS
+  GET_ERRORS,
+  GET_VISITOR_FORM
 } from "./types";
 
 // Check if visitor exists
@@ -46,6 +47,15 @@ export const addNewVisitor = visitorData => dispatch => {
       })
     );
 };
+
+// Get visitor form fields
+export const getFormFields = () => dispatch => {
+  dispatch(setVisitorLoading());
+  axios
+  .get(`http://localhost:5000/api/v1/visitor/format`)
+  .then(res => dispatch({ type: GET_VISITOR_FORM, payload: res.data }))
+  .catch(err => dispatch({ type: GET_VISITOR_FORM, payload: null }))
+}
 
 // Check Visitor Successfully Registered
 export const checkVisitorSuccess = () => {

@@ -80,11 +80,11 @@ class VisitorForm extends Component {
         <TouchableOpacity
           style={styles.btn}
           onPress={
-            this.onSubmit
-            // () => navigate('VisitorPersonalsScreen', {
-            // stateData: this.state.phone_number
+            // this.onSubmit
+            () => navigate('VisitorPersonalsScreen', {
+              stateData: this.state.phone_number
           }
-          // )}
+           )}
         >
           <Text
             style={{

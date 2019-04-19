@@ -4,14 +4,16 @@ import {
   SET_NEW_VISITOR,
   CHECK_IF_EXISTING_VISITOR,
   CHECK_VISITOR_SUCCESS,
-  CHECK_OUT_VISITOR
+  CHECK_OUT_VISITOR,
+  GET_VISITOR_FORM
 } from "../actions/types";
 
 const initialState = {
   loading: false,
   success: false,
   visitor: {},
-  visitors: []
+  visitors: [],
+  form: {}
 };
 
 export default (state = initialState, action) => {
@@ -27,6 +29,12 @@ export default (state = initialState, action) => {
         visitors: action.payload,
         loading: false,
         success: false
+      };
+    case GET_VISITOR_FORM:
+      return {
+        ...state,
+        form: action.payload,
+        loading: false
       };
     case CHECK_IF_EXISTING_VISITOR:
       return {
