@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Text,
   View,
@@ -8,23 +8,23 @@ import {
   Image,
   Dimensions,
   AsyncStorage
-} from 'react-native';
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux';
-import { loginUser } from '../../../actions/authActions';
+} from "react-native";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser } from "../../../actions/authActions";
 
-import { withNavigation } from 'react-navigation';
+import { withNavigation } from "react-navigation";
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 
-import styles from './styles';
+import styles from "./styles";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       errors: {}
     };
     this.onSubmit = this.onSubmit.bind(this);
@@ -32,17 +32,17 @@ class Login extends Component {
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      this.props.navigation.navigate('HomeScreen');
+      this.props.navigation.navigate("HomeScreen");
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.navigation.navigate('HomeScreen')
+      this.props.navigation.navigate("HomeScreen");
     }
 
     if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors })
+      this.setState({ errors: nextProps.errors });
     }
   }
 
@@ -52,27 +52,27 @@ class Login extends Component {
     const userData = {
       email: this.state.email,
       password: this.state.password
-    }
-    this.props.loginUser(userData)
-  }
+    };
+    this.props.loginUser(userData);
+  };
 
   render() {
-    const width = Dimensions.get('window').width;
+    const width = Dimensions.get("window").width;
     const { navigate } = this.props.navigation;
-    const { errors } = this.state
+    const { errors } = this.state;
     return (
       <KeyboardAvoidingView behavior="padding">
         <View style={{ margin: 10 }}>
           <Text
             style={{
-              fontFamily: 'montserrat-semibold',
+              fontFamily: "montserrat-semibold",
               marginBottom: 5,
               fontSize: 50,
-              fontWeight: 'bold',
-              color: '#FFFFFF',
+              fontWeight: "bold",
+              color: "#FFFFFF",
               shadowOpacity: 0.3,
               shadowRadius: 0.5,
-              shadowColor: 'black',
+              shadowColor: "black",
               shadowOffset: { height: 2, width: 1 }
             }}
           >
@@ -80,13 +80,13 @@ class Login extends Component {
           </Text>
           <Text
             style={{
-              fontFamily: 'montserrat-bold',
+              fontFamily: "montserrat-bold",
               fontSize: 60,
-              fontWeight: 'bold',
-              color: '#FFFFFF',
+              fontWeight: "bold",
+              color: "#FFFFFF",
               shadowOpacity: 0.3,
               shadowRadius: 0.5,
-              shadowColor: 'black',
+              shadowColor: "black",
               shadowOffset: { height: 2, width: 1 }
             }}
           >
@@ -94,7 +94,12 @@ class Login extends Component {
           </Text>
 
           <View style={styles.SectionStyle}>
-            <Icon style={styles.IconStyle} name="envelope" size={20} color="#4FF0FB" />
+            <Icon
+              style={styles.IconStyle}
+              name="envelope"
+              size={20}
+              color="#4FF0FB"
+            />
 
             <TextInput
               style={{
@@ -102,7 +107,7 @@ class Login extends Component {
                 fontSize: 16,
                 shadowOpacity: 0.3,
                 shadowRadius: 0.5,
-                shadowColor: 'black',
+                shadowColor: "black",
                 shadowOffset: { height: 2, width: 1 }
               }}
               onChangeText={email =>
@@ -114,13 +119,18 @@ class Login extends Component {
               underlineColorAndroid="transparent"
               returnKeyType="next"
               autoCorrect={false}
-              autoCapitalize='none'
+              autoCapitalize="none"
             />
-            <Text>{errors.email}</Text>
           </View>
+          <Text style={styles.errorText}>{errors.email}</Text>
 
           <View style={styles.SectionStyle}>
-            <Icon style={styles.IconStyle} name="unlock" size={20} color="#4FF0FB" />
+            <Icon
+              style={styles.IconStyle}
+              name="unlock"
+              size={20}
+              color="#4FF0FB"
+            />
             <TextInput
               style={{ flex: 1, fontSize: 16 }}
               onChangeText={password =>
@@ -132,45 +142,45 @@ class Login extends Component {
               underlineColorAndroid="transparent"
               returnKeyType="next"
               autoCorrect={false}
-              autoCapitalize='none'
+              autoCapitalize="none"
             />
           </View>
-          <Text>{errors.password}</Text>
+          <Text style={styles.errorText}>{errors.password}</Text>
           <TouchableOpacity style={styles.btn} onPress={this.onSubmit}>
             <Text
               style={{
-                color: 'rgb(255,255,255)',
-                fontFamily: 'montserrat-regular'
+                color: "rgb(255,255,255)",
+                fontFamily: "montserrat-regular"
               }}
             >
-              Log In {'  '}
+              Log In {"  "}
               <Icon name="arrow-right" size={20} />
             </Text>
           </TouchableOpacity>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: "row" }}>
             <Text
               style={{
-                flexDirection: 'row',
-                alignSelf: 'stretch',
+                flexDirection: "row",
+                alignSelf: "stretch",
                 padding: 5,
-                alignItems: 'center',
+                alignItems: "center",
                 fontSize: 12,
-                fontFamily: 'montserrat-regular'
+                fontFamily: "montserrat-regular"
               }}
             >
               Forgot your Password?
             </Text>
-            <TouchableOpacity onPress={() => navigate('PasswordResetScreen')}>
+            <TouchableOpacity onPress={() => navigate("PasswordResetScreen")}>
               <Text
                 style={{
-                  flexDirection: 'row',
-                  alignSelf: 'stretch',
+                  flexDirection: "row",
+                  alignSelf: "stretch",
                   padding: 5,
-                  alignItems: 'center',
+                  alignItems: "center",
                   fontSize: 12,
-                  fontFamily: 'montserrat-regular',
+                  fontFamily: "montserrat-regular",
                   marginLeft: -5,
-                  color: 'rgb(72,158,235)'
+                  color: "rgb(72,158,235)"
                 }}
               >
                 Reset
@@ -192,9 +202,9 @@ Login.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
-})
+});
 
 export default connect(
   mapStateToProps,
   { loginUser }
-  )(withNavigation(Login));
+)(withNavigation(Login));

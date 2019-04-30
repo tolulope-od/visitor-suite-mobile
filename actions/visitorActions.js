@@ -34,12 +34,12 @@ export const checkVisitor = phone_number => dispatch => {
 
 export const addNewVisitor = visitorData => dispatch => {
   dispatch(clearErrors());
-  dispatch(checkVisitorSuccess());
   axios
     .post(`http://localhost:5000/api/v1/visitor`, visitorData)
     .then(res => {
       dispatch({ type: SET_NEW_VISITOR, payload: res.data });
     })
+    .then(() => dispatch(checkVisitorSuccess()))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -52,10 +52,10 @@ export const addNewVisitor = visitorData => dispatch => {
 export const getFormFields = () => dispatch => {
   dispatch(setVisitorLoading());
   axios
-  .get(`http://localhost:5000/api/v1/visitor/format`)
-  .then(res => dispatch({ type: GET_VISITOR_FORM, payload: res.data }))
-  .catch(err => dispatch({ type: GET_VISITOR_FORM, payload: null }))
-}
+    .get(`http://localhost:5000/api/v1/visitor/format`)
+    .then(res => dispatch({ type: GET_VISITOR_FORM, payload: res.data }))
+    .catch(err => dispatch({ type: GET_VISITOR_FORM, payload: null }));
+};
 
 // Check Visitor Successfully Registered
 export const checkVisitorSuccess = () => {

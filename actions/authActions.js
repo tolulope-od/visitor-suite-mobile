@@ -1,15 +1,15 @@
-import axios from 'axios';
-import jwt_decode from 'jwt-decode';
-import { AsyncStorage } from 'react-native';
-import setAuthToken from '../utils/setAuthToken';
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+import { AsyncStorage } from "react-native";
+import setAuthToken from "../utils/setAuthToken";
 
-import { GET_ERRORS, SET_CURRENT_USER } from './types';
+import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS } from "./types";
 
 // Register User
 export const registerUser = (userData, history) => dispatch => {
   axios
-    .post('http://localhost:5000/api/v1/api/users/sign-up', userData)
-    .then(res => history.push('LoginScreen'))
+    .post("http://localhost:5000/api/v1/api/users/sign-up", userData)
+    .then(res => history.push("LoginScreen"))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -20,21 +20,22 @@ export const registerUser = (userData, history) => dispatch => {
 
 // Login user and get token
 export const loginUser = userData => dispatch => {
+  dispatch(clearErrors());
   axios
-    .post('http://localhost:5000/api/v1/users/sign-in', userData)
+    .post("http://localhost:5000/api/v1/users/sign-in", userData)
     .then(res => {
       // Save to AsyncStorage
       const { token } = res.data;
 
-      AsyncStorage.setItem('jwtToken', token).then(() => {
-      // Set token to auth header
-      setAuthToken(token);
-      // Decode token to get user data
-      const decoded = jwt_decode(token);
+      AsyncStorage.setItem("jwtToken", token).then(() => {
+        // Set token to auth header
+        setAuthToken(token);
+        // Decode token to get user data
+        const decoded = jwt_decode(token);
 
-      // Set current user
-      dispatch(setCurrentUser(decoded));
-      })
+        // Set current user
+        dispatch(setCurrentUser(decoded));
+      });
     })
     .catch(err =>
       dispatch({
@@ -53,10 +54,18 @@ export const setCurrentUser = decoded => {
 };
 
 // log user out
-export const logoutUser = () => async dispatch => {
+export const logoutUser = navigation => async dispatch => {
   // Remove token from Async Storage
-    await AsyncStorage.removeItem('jwtToken');
-    // Remove from auth header
-    setAuthToken(false);
-    dispatch(setCurrentUser({}));
+  await AsyncStorage.removeItem("jwtToken");
+  // Remove from auth header
+  setAuthToken(false);
+  dispatch(setCurrentUser({}));
+  navigation.navigate("LoginScreen");
+};
+
+// Clear errors
+export const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
+  };
 };

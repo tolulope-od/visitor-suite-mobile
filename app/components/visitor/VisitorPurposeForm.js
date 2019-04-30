@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Autocomplete from "react-native-autocomplete-input";
+import Debug from "debug";
 import { addNewVisitor, getFormFields } from "../../../actions/visitorActions";
 import { fetchAllStaff } from "../../../actions/staffActions";
 import styles from "./styles";
@@ -30,7 +31,10 @@ class VisitorPurposeForm extends Component {
         type: "",
         id: ""
       },
-      phone_number: stateData.phone_number,
+      phone_number:
+        typeof stateData.phone_number === "object"
+          ? stateData.phone_number.phone_number
+          : stateData.phone_number,
       staff: "",
       custom: [],
       form: {},
@@ -43,8 +47,8 @@ class VisitorPurposeForm extends Component {
   }
 
   componentDidMount() {
-    this.props.getFormFields();
     this.addStaffToState();
+    console.log(this.state);
   }
 
   componentWillReceiveProps(newProps) {
@@ -85,13 +89,19 @@ class VisitorPurposeForm extends Component {
     // Since we can't set the exact state of the purpose object wih react native picker item,
     // create a copy of the purpose from the state and submit it with the form
     const purpose = { ...this.state.purpose };
-    purpose.type = purpose.type.split(", ")[1];
-    purpose.id = purpose.id.split(", ")[0];
+    const value = purpose.type.split(", ");
+    purpose.type = value[1];
+    purpose.id = value[0];
+    const id = this.state.purpose.id;
+    const type = this.state.purpose.type;
     const visitorData = {
       name: this.state.name,
       address: this.state.address,
       email: this.state.email,
-      purpose,
+      purpose: {
+        id: this.state.purpose.id.split(", ")[0],
+        type: this.state.purpose.id.split(", ")[1]
+      },
       phone_number: this.state.phone_number,
       staff: this.state.staff,
       custom: this.state.custom
@@ -134,7 +144,7 @@ class VisitorPurposeForm extends Component {
         (customFormFields, key) => (
           <Picker.Item
             label={customFormFields.option}
-            value={`${customFormFields.id} ${companyCustomFormValues[0].type}`}
+            value={`${customFormFields.id}, ${companyCustomFormValues[0].type}`}
             type={companyCustomFormValues[0].type}
             key={key}
           />
@@ -149,45 +159,25 @@ class VisitorPurposeForm extends Component {
       <View>
         <Text style={styles.headText}>Almost done... </Text>
 
-        <Autocomplete
-          autoCapitalize="none"
-          autoCorrect={false}
-          containerStyle={{ backgroundColor: "#ffffff", borderWidth: 0 }}
-          data={staff.length === 1 && comp(query, staff[0].name) ? [] : staff}
-          defaultValue={query}
-          onChangeText={text => this.setState({ query: text })}
-          placeholder="Enter staff name"
-          renderItem={({ name, id }) => (
-            //you can change the view you want to show in suggestion from here
-            <TouchableOpacity
-              onPress={() => this.setState({ query: name, staff: id })}
-            >
-              <Text>{name}</Text>
-            </TouchableOpacity>
-          )}
-        />
-        <View style={{ flex: 1, justifyContent: "center" }}>
-          {staff.length > 0 ? (
-            <Text>{this.state.query}</Text>
-          ) : (
-            <Text>Enter Staff Name</Text>
-          )}
-        </View>
-
         <View style={styles.SectionStyle}>
           <Icon style={styles.IconStyle} name="user" size={20} color="black" />
 
-          <TextInput
-            style={styles.textInput}
-            onChangeText={staff =>
-              this.setState({
-                staff
-              })
-            }
-            placeholder="Who are you here to see?"
-            underlineColorAndroid="transparent"
-            returnKeyType="next"
+          <Autocomplete
+            autoCapitalize="none"
             autoCorrect={false}
+            containerStyle={styles.textInput}
+            data={staff.length === 1 && comp(query, staff[0].name) ? [] : staff}
+            defaultValue={query}
+            onChangeText={text => this.setState({ query: text })}
+            placeholder="Enter staff name"
+            renderItem={({ name, id }) => (
+              //you can change the view you want to show in suggestion from here
+              <TouchableOpacity
+                onPress={() => this.setState({ query: name, staff: id })}
+              >
+                <Text>{name}</Text>
+              </TouchableOpacity>
+            )}
           />
         </View>
         <Picker
@@ -240,14 +230,16 @@ VisitorPurposeForm.propTypes = {
   getAllStaff: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   visitor: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired
+  form: PropTypes.object.isRequired,
+  success: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   errors: state.errors,
   visitor: state.visitor,
   form: state.form,
-  staff: state.staff
+  staff: state.staff,
+  success: state.success
 });
 
 export default connect(

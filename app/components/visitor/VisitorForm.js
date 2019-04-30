@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import React, { Component } from "react";
+import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
-import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from './styles';
-import { checkVisitor } from '../../../actions/visitorActions';
+import PropTypes from "prop-types";
+import Icon from "react-native-vector-icons/FontAwesome";
+import styles from "./styles";
+import { checkVisitor } from "../../../actions/visitorActions";
 
 class VisitorForm extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class VisitorForm extends Component {
     if (nextProps.visitor.visitor) {
       const visitor = nextProps.visitor.visitor;
       if (visitor.data) {
-        if (visitor.data.ifNewVisitor.msg === 'A new visitor') {
+        if (visitor.data.ifNewVisitor.msg === "A new visitor") {
           this.props.navigation.navigate("VisitorPersonalsScreen", {
             stateData: {
               phone_number: this.state.phone_number
@@ -45,7 +45,7 @@ class VisitorForm extends Component {
         }
       }
     } else {
-      console.log('not received');
+      console.log("not received");
     }
   }
 
@@ -77,15 +77,7 @@ class VisitorForm extends Component {
             autoCorrect={false}
           />
         </View>
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={
-            // this.onSubmit
-            () => navigate('VisitorPersonalsScreen', {
-              stateData: this.state.phone_number
-          }
-           )}
-        >
+        <TouchableOpacity style={styles.btn} onPress={() => this.onSubmit()}>
           <Text
             style={{
               color: "rgb(255,255,255)",
@@ -103,12 +95,14 @@ class VisitorForm extends Component {
 
 VisitorForm.propTypes = {
   checkVisitor: PropTypes.func.isRequired,
-  visitor: PropTypes.object.isRequired
-}
+  visitor: PropTypes.object.isRequired,
+  success: PropTypes.bool.isRequired
+};
 
 const mapStateToProps = state => ({
-  visitor: state.visitor
-})
+  visitor: state.visitor,
+  success: state.success
+});
 
 export default connect(
   mapStateToProps,

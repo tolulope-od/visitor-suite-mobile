@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 0.5,
     shadowColor: "black",
-    shadowOffset: { height: 2, width: 1 },
+    shadowOffset: { height: 2, width: 1 }
   },
   textInput: {
     alignSelf: "stretch",
@@ -56,7 +56,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 0.5,
     shadowColor: "black",
-    shadowOffset: { height: 2, width: 1 },
+    shadowOffset: { height: 2, width: 1 }
+  },
+  errorText: {
+    color: "orangered",
+    marginLeft: 20
   }
 });
 

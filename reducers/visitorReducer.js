@@ -34,7 +34,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         form: action.payload,
-        loading: false
+        loading: false,
+        success: false
       };
     case CHECK_IF_EXISTING_VISITOR:
       return {
@@ -46,7 +47,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         visitors: [action.payload],
-        success: false
+        loading: false
       };
     case CHECK_VISITOR_SUCCESS:
       return {

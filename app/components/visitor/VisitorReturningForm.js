@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Text, View, TextInput, TouchableOpacity } from "react-native";
 import { withNavigation } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getFormFields } from "../../../actions/visitorActions";
 import styles from "./styles";
 
 class VisitorReturningForm extends Component {
@@ -16,14 +19,16 @@ class VisitorReturningForm extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getFormFields();
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     const { stateData } = this.props.navigation.state.params;
     return (
       <View>
-        <Text style={styles.headText}>
-          Welcome back, {stateData.name}
-        </Text>
+        <Text style={styles.headText}>Welcome back, {stateData.name}</Text>
 
         <View style={styles.SectionStyle}>
           <Icon style={styles.IconStyle} name="user" size={20} color="black" />
@@ -86,7 +91,7 @@ class VisitorReturningForm extends Component {
         </View>
         <TouchableOpacity
           style={styles.btn}
-          onPress={ () =>
+          onPress={() =>
             navigate("VisitorPurposeScreen", {
               stateData: {
                 name: this.state.name,
@@ -112,4 +117,23 @@ class VisitorReturningForm extends Component {
   }
 }
 
-export default withNavigation(VisitorReturningForm);
+VisitorReturningForm.propTypes = {
+  getFormFields: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  visitor: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
+  success: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = state => ({
+  errors: state.errors,
+  visitor: state.visitor,
+  form: state.form,
+  staff: state.staff,
+  success: state.success
+});
+
+export default connect(
+  mapStateToProps,
+  { getFormFields }
+)(withNavigation(VisitorReturningForm));
