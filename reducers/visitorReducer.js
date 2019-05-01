@@ -5,7 +5,8 @@ import {
   CHECK_IF_EXISTING_VISITOR,
   CHECK_VISITOR_SUCCESS,
   CHECK_OUT_VISITOR,
-  GET_VISITOR_FORM
+  GET_VISITOR_FORM,
+  UPLOAD_VISITOR_PICTURE
 } from "../actions/types";
 
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
   success: false,
   visitor: {},
   visitors: [],
-  form: {}
+  form: {},
+  uploaded: ""
 };
 
 export default (state = initialState, action) => {
@@ -53,6 +55,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         success: true
+      };
+    case UPLOAD_VISITOR_PICTURE:
+      return {
+        ...state,
+        uploaded: action.payload
       };
     case CHECK_OUT_VISITOR:
       return {

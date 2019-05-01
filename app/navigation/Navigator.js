@@ -21,6 +21,7 @@ import HomeScreen from "../screens/Home";
 import {
   VisitorScreen,
   VisitorPersonalsScreen,
+  VisitorPictureScreen,
   VisitorPurposeScreen,
   VisitorSuccessScreen,
   VisitorReturningScreen
@@ -145,6 +146,7 @@ const VisitorStack = createStackNavigator(
     VisitorScreen,
     VisitorPersonalsScreen,
     VisitorReturningScreen,
+    VisitorPictureScreen,
     VisitorPurposeScreen,
     VisitorSuccessScreen
   },

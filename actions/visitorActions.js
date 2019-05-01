@@ -1,4 +1,5 @@
 import axios from "axios";
+import { AsyncStorage } from "react-native";
 import {
   GET_VISITORS,
   CLEAR_ERRORS,
@@ -8,7 +9,8 @@ import {
   CHECK_OUT_VISITOR,
   CHECK_VISITOR_SUCCESS,
   GET_ERRORS,
-  GET_VISITOR_FORM
+  GET_VISITOR_FORM,
+  UPLOAD_VISITOR_PICTURE
 } from "./types";
 
 // Check if visitor exists
@@ -46,6 +48,33 @@ export const addNewVisitor = visitorData => dispatch => {
         payload: err.response.data
       })
     );
+};
+
+export const uploadVisitorPicture = (id, data) => async dispatch => {
+  try {
+    dispatch(clearErrors());
+
+    let options = {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    };
+    const res = await axios.post(
+      `http://localhost:5000/api/v1/visitor/picture/${id}`,
+      data,
+      options
+    );
+    await dispatch({
+      type: UPLOAD_VISITOR_PICTURE,
+      payload: res.data
+    });
+    return res.data;
+  } catch (err) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
+  }
 };
 
 // Get visitor form fields

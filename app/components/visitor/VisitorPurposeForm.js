@@ -3,18 +3,14 @@ import PropTypes from "prop-types";
 import {
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   Picker,
-  Alert,
-  Button,
   ActivityIndicator
 } from "react-native";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Autocomplete from "react-native-autocomplete-input";
-import Debug from "debug";
 import { addNewVisitor, getFormFields } from "../../../actions/visitorActions";
 import { fetchAllStaff } from "../../../actions/staffActions";
 import styles from "./styles";
@@ -27,6 +23,7 @@ class VisitorPurposeForm extends Component {
       name: stateData.name,
       address: stateData.address,
       email: stateData.email,
+      visitorPicture: stateData.visitorPicture,
       purpose: {
         type: "",
         id: ""
@@ -59,7 +56,8 @@ class VisitorPurposeForm extends Component {
     if (newProps.visitor.success === true) {
       this.props.navigation.navigate("VisitorSuccessScreen", {
         stateData: {
-          name: this.state.name
+          name: this.state.name,
+          visitorPicture: this.state.visitorPicture
         }
       });
     }
@@ -110,6 +108,8 @@ class VisitorPurposeForm extends Component {
   };
 
   render() {
+    const { visitorPicture } = this.state;
+    console.log(visitorPicture);
     const { form, loading } = this.props.visitor;
     let formContent;
     let formData = [];

@@ -92,7 +92,7 @@ class VisitorReturningForm extends Component {
         <TouchableOpacity
           style={styles.btn}
           onPress={() =>
-            navigate("VisitorPurposeScreen", {
+            navigate("VisitorPictureScreen", {
               stateData: {
                 name: this.state.name,
                 address: this.state.address,

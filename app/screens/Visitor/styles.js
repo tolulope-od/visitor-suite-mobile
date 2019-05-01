@@ -1,10 +1,14 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-evenly',
-    alignItems: 'center'
+    justifyContent: "space-evenly",
+    alignItems: "center"
+  },
+  cameraContainer: {
+    flex: 1,
+    alignItems: "center"
   },
   icon: {
     paddingLeft: 10,
