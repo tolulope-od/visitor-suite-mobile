@@ -9,6 +9,9 @@ import styles from "./styles";
 import cameraStyles from "../camera/styles";
 import Toolbar from "../camera/Toolbar";
 import Gallery from "../camera/Gallery";
+import InputValidation from "../../../validations/InputValidation";
+
+const { isEmpty } = InputValidation;
 
 const { width: winWidth, height: winHeight } = Dimensions.get("window");
 
@@ -29,7 +32,8 @@ class VisitorPicture extends Component {
       hasCameraPermission: null,
       cameraType: Camera.Constants.Type.front,
       flashMode: Camera.Constants.FlashMode.off,
-      filePath: ""
+      filePath: "",
+      errors: {}
     };
   }
 
@@ -72,7 +76,7 @@ class VisitorPicture extends Component {
   render() {
     const { navigate } = this.props.navigation;
     const { phone_number } = this.state;
-    console.log(phone_number);
+    const { errors } = this.state;
 
     const {
       hasCameraPermission,
@@ -90,7 +94,7 @@ class VisitorPicture extends Component {
 
     return (
       <React.Fragment>
-        <View>
+        <View style={{ marginTop: 100 }}>
           <Camera
             type={cameraType}
             flashMode={flashMode}
@@ -106,28 +110,52 @@ class VisitorPicture extends Component {
                 flexWrap: "wrap-reverse"
               }}
             >
+              <Text style={styles.errorTxt}>{errors.picture}</Text>
+              {isEmpty(this.state.filePath) ? (
+                <TouchableOpacity
+                  style={styles.btnDisabled}
+                  onPress={() => {
+                    this.setState({
+                      errors: {
+                        picture: "You need to take a picture to proceed"
+                      }
+                    });
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "rgb(255,255,255)",
+                      fontFamily: "montserrat-regular"
+                    }}
+                  >
+                    Next {"  "}
+                    <Icon name="arrow-right" size={20} />
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.cameraBtn}
+                  onPress={() =>
+                    navigate("VisitorPurposeScreen", {
+                      stateData: {
+                        name: this.state.name,
+                        address: this.state.address,
+                        email: this.state.email,
+                        phone_number: this.state.phone_number,
+                        visitorPicture: this.state.filePath
+                      }
+                    })
+                  }
+                >
+                  <Text>
+                    Next {"  "}
+                    <Icon name="arrow-right" color="whitesmoke" size={20} />
+                  </Text>
+                </TouchableOpacity>
+              )}
               <Text style={styles.cameraTxt}>
                 Align your face for a picture
               </Text>
-              <TouchableOpacity
-                style={styles.cameraBtn}
-                onPress={() =>
-                  navigate("VisitorPurposeScreen", {
-                    stateData: {
-                      name: this.state.name,
-                      address: this.state.address,
-                      email: this.state.email,
-                      phone_number: this.state.phone_number,
-                      visitorPicture: this.state.filePath
-                    }
-                  })
-                }
-              >
-                <Text>
-                  Next {"  "}
-                  <Icon name="arrow-right" color="whitesmoke" size={20} />
-                </Text>
-              </TouchableOpacity>
             </View>
           </Camera>
         </View>

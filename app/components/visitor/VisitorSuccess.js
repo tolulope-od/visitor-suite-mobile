@@ -21,41 +21,14 @@ class VisitorSuccess extends Component {
     };
   }
 
-  async componentDidMount() {}
-
-  // upload = () => {
-  //   const { visitors } = this.props.visitor;
-  //   const { stateData } = this.props.navigation.state.params;
-  //   const visitorID = visitors[0].data.id;
-  //   let options;
-  //   AsyncStorage.getItem("jwtToken")
-  //     .then(token => {
-  //       options = {
-  //         headers: {
-  //           //"Content-Type": "multipart/form-data",
-  //           Authorization: token
-  //         },
-  //         method: "GET"
-  //         //body: new FormData()
-  //       };
-  //       const cleanURL = stateData.visitorPicture.replace("file://", "");
-  //       console.log(cleanURL);
-  //       //options.body.append("visitorPicture", cleanURL);
-  //     })
-  //     .then(() => {
-  //       console.log("--OPTIONS---");
-  //       console.log(options);
-  //       fetch(
-  //         `http://localhost:5000/api/v1/visitor/picture/${visitorID}`,
-  //         options
-  //       )
-  //         .then(response => response.json())
-  //         .then(res => {
-  //           console.log("THIS IS RES");
-  //           console.log(res);
-  //         });
-  //     });
-  // };
+  async componentDidMount() {
+    const pictureUpload = await this.uploadPicture();
+    if (this.state.uploaded) {
+      setTimeout(() => {
+        this.props.navigation.navigate("VisitorScreen");
+      }, 3000);
+    }
+  }
 
   uploadPicture = async () => {
     const { visitors } = this.props.visitor;
@@ -69,8 +42,10 @@ class VisitorSuccess extends Component {
       type: "image/jpg"
     });
     const uploading = await this.props.uploadVisitorPicture(visitorID, data);
-    console.log("------THIS IS THE VISITOR FORM DATA-------");
-    console.log(uploading);
+    uploading === "Profile picture updated"
+      ? this.setState({ uploaded: true })
+      : null;
+    return uploading;
   };
 
   render() {
@@ -82,26 +57,6 @@ class VisitorSuccess extends Component {
         <Text style={styles.successText}>
           All done! Welcome {stateData.name}
         </Text>
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={
-            this.uploadPicture
-            // () => navigate('VisitorSuccessScreen', {
-            // stateData: {
-            // name: this.state.name
-          }
-          //})}
-        >
-          <Text
-            style={{
-              color: "rgb(255,255,255)",
-              fontFamily: "montserrat-regular"
-            }}
-          >
-            Next {"  "}
-            <Icon name="arrow-right" size={20} />
-          </Text>
-        </TouchableOpacity>
       </View>
     );
   }

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { AsyncStorage } from "react-native";
 import {
   GET_VISITORS,
   CLEAR_ERRORS,
@@ -34,20 +33,25 @@ export const checkVisitor = phone_number => dispatch => {
     );
 };
 
-export const addNewVisitor = visitorData => dispatch => {
-  dispatch(clearErrors());
-  axios
-    .post(`http://localhost:5000/api/v1/visitor`, visitorData)
-    .then(res => {
-      dispatch({ type: SET_NEW_VISITOR, payload: res.data });
-    })
-    .then(() => dispatch(checkVisitorSuccess()))
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
+export const addNewVisitor = visitorData => async dispatch => {
+  try {
+    dispatch(clearErrors());
+    const res = await axios.post(
+      `http://localhost:5000/api/v1/visitor`,
+      visitorData
     );
+    const visitor = await dispatch({
+      type: SET_NEW_VISITOR,
+      payload: res.data
+    });
+    const success = await dispatch(checkVisitorSuccess());
+    console.log(success);
+  } catch (err) {
+    await dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
+  }
 };
 
 export const uploadVisitorPicture = (id, data) => async dispatch => {

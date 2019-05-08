@@ -43,7 +43,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         visitor: action.payload,
-        loading: false
+        loading: false,
+        uploaded: ""
       };
     case SET_NEW_VISITOR:
       return {
@@ -59,7 +60,8 @@ export default (state = initialState, action) => {
     case UPLOAD_VISITOR_PICTURE:
       return {
         ...state,
-        uploaded: action.payload
+        uploaded: action.payload,
+        visitor: {}
       };
     case CHECK_OUT_VISITOR:
       return {

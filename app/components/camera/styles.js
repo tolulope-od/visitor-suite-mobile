@@ -2,7 +2,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const { width: winWidth, height: winHeight } = Dimensions.get("window");
 
-const winHeightPct = 0.91 * winHeight;
+const winHeightPct = 0.61 * winHeight;
 
 export default StyleSheet.create({
   alignCenter: {

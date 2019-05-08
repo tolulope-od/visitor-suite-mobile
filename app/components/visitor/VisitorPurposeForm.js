@@ -81,9 +81,7 @@ class VisitorPurposeForm extends Component {
   }
 
   // figure out whyit pushes back to VisitorPersonalsScreen
-  onSubmit = e => {
-    e.preventDefault();
-
+  onSubmit = () => {
     // Since we can't set the exact state of the purpose object wih react native picker item,
     // create a copy of the purpose from the state and submit it with the form
     const purpose = { ...this.state.purpose };
